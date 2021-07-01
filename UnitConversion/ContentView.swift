@@ -14,10 +14,12 @@ struct ContentView: View {
     
     var outputLength: Double {
         guard let inputLength = Double(inputLength) else { return 0 }
-        return inputLength
+        let inputMeasurement = Measurement(value: inputLength, unit: units[inputUnit])
+        
+        return inputMeasurement.converted(to: units[outputUnit]).value
     }
     
-    let units = ["m", "km", "ft", "yrd", "mile"]
+    let units = [UnitLength.meters, UnitLength.kilometers, UnitLength.feet, UnitLength.yards, UnitLength.miles]
     
     var body: some View {
         Form {
@@ -25,7 +27,7 @@ struct ContentView: View {
                 TextField("Length", text: $inputLength)
                 Picker("Length unit", selection: $inputUnit) {
                     ForEach(0..<units.count) {
-                        Text(units[$0])
+                        Text(units[$0].symbol)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
@@ -35,7 +37,7 @@ struct ContentView: View {
                 Text("\(outputLength)")
                 Picker("Length unit", selection: $outputUnit) {
                     ForEach(0..<units.count) {
-                        Text(units[$0])
+                        Text(units[$0].symbol)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
