@@ -7,16 +7,30 @@
 
 import SwiftUI
 
+enum UnitType: String, CaseIterable, Identifiable {
+    case length
+    case volume
+    case temp
+    
+    var id: String { self.rawValue }
+}
+
 struct ContentView: View {
     @State private var inputValue = ""
     @State private var inputUnit = 0
     @State private var outputUnit = 1
-    @State private var unitType = 0
+    @State private var unitType: UnitType = .length
     
-    let unitTypes = ["Length", "Volume", "Temp"]
-    let lengthUnits = [UnitLength.meters, UnitLength.kilometers, UnitLength.feet, UnitLength.yards, UnitLength.miles]
-    let volumeUnits = [UnitVolume.milliliters, UnitVolume.liters, UnitVolume.customaryCups, UnitVolume.pints, UnitVolume.gallons]
-    let tempUnits = [UnitTemperature.fahrenheit, UnitTemperature.celsius, UnitTemperature.kelvin]
+    var units: [Dimension] {
+        switch unitType {
+        case .length:
+            return [UnitLength.meters, UnitLength.kilometers, UnitLength.feet, UnitLength.yards, UnitLength.miles]
+        case .volume:
+            return [UnitVolume.milliliters, UnitVolume.liters, UnitVolume.customaryCups, UnitVolume.pints, UnitVolume.gallons]
+        case .temp:
+            return [UnitTemperature.fahrenheit, UnitTemperature.celsius, UnitTemperature.kelvin]
+        }
+    }
     
     var outputValue: Double {
         let units = units
@@ -29,32 +43,19 @@ struct ContentView: View {
         return inputMeasurement.converted(to: units[outputUnit]).value
     }
     
-    var units: [Dimension] {
-        switch unitType {
-        case 0:
-            return lengthUnits
-        case 1:
-            return volumeUnits
-        case 2:
-            return tempUnits
-        default:
-            return []
-        }
-    }
-    
     var body: some View {
         NavigationView {
             Form {
                 Picker("Unit", selection: $unitType) {
-                    ForEach(0..<unitTypes.count) {
-                        Text(unitTypes[$0])
+                    ForEach(UnitType.allCases) {
+                        Text($0.rawValue.capitalized).tag($0)
                     }
                 }
-                
                 .pickerStyle(SegmentedPickerStyle())
+                
                 Section(header: Text("Input")) {
-                    TextField(unitTypes[unitType], text: $inputValue)
-                    Picker("\(unitTypes[unitType]) selection", selection: $inputUnit) {
+                    TextField(unitType.rawValue.capitalized, text: $inputValue)
+                    Picker(unitType.rawValue, selection: $inputUnit) {
                         ForEach(0..<units.count, id: \.self) {
                             Text(units[$0].symbol)
                         }
@@ -64,7 +65,7 @@ struct ContentView: View {
 
                 Section(header: Text("Output")) {
                     Text("\(outputValue)")
-                    Picker("Length unit", selection: $outputUnit) {
+                    Picker(unitType.rawValue, selection: $outputUnit) {
                         ForEach(0..<units.count, id: \.self) {
                             Text(units[$0].symbol)
                         }
