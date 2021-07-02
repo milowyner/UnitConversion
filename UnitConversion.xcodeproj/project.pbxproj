@@ -12,6 +12,7 @@
 		05D7B515268E5D9900DA9F86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05D7B514268E5D9900DA9F86 /* Assets.xcassets */; };
 		05D7B518268E5D9900DA9F86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05D7B517268E5D9900DA9F86 /* Preview Assets.xcassets */; };
 		05D7B522268FCBEE00DA9F86 /* UnitVolume+CustomaryCups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D7B521268FCBEE00DA9F86 /* UnitVolume+CustomaryCups.swift */; };
+		05D7B526268FD8D200DA9F86 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D7B525268FD8D200DA9F86 /* UnitType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		05D7B517268E5D9900DA9F86 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		05D7B519268E5D9900DA9F86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05D7B521268FCBEE00DA9F86 /* UnitVolume+CustomaryCups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UnitVolume+CustomaryCups.swift"; sourceTree = "<group>"; };
+		05D7B525268FD8D200DA9F86 /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				05D7B510268E5D9700DA9F86 /* UnitConversionApp.swift */,
 				05D7B512268E5D9700DA9F86 /* ContentView.swift */,
+				05D7B525268FD8D200DA9F86 /* UnitType.swift */,
 				05D7B521268FCBEE00DA9F86 /* UnitVolume+CustomaryCups.swift */,
 				05D7B514268E5D9900DA9F86 /* Assets.xcassets */,
 				05D7B519268E5D9900DA9F86 /* Info.plist */,
@@ -144,6 +147,7 @@
 				05D7B522268FCBEE00DA9F86 /* UnitVolume+CustomaryCups.swift in Sources */,
 				05D7B513268E5D9700DA9F86 /* ContentView.swift in Sources */,
 				05D7B511268E5D9700DA9F86 /* UnitConversionApp.swift in Sources */,
+				05D7B526268FD8D200DA9F86 /* UnitType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

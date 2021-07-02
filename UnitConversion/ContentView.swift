@@ -7,33 +7,15 @@
 
 import SwiftUI
 
-enum UnitType: String, CaseIterable, Identifiable {
-    case length
-    case volume
-    case temp
-    
-    var id: String { self.rawValue }
-}
-
 struct ContentView: View {
     @State private var inputValue = ""
     @State private var inputUnit = 0
     @State private var outputUnit = 1
     @State private var unitType: UnitType = .length
     
-    var units: [Dimension] {
-        switch unitType {
-        case .length:
-            return [UnitLength.meters, UnitLength.kilometers, UnitLength.feet, UnitLength.yards, UnitLength.miles]
-        case .volume:
-            return [UnitVolume.milliliters, UnitVolume.liters, UnitVolume.customaryCups, UnitVolume.pints, UnitVolume.gallons]
-        case .temp:
-            return [UnitTemperature.fahrenheit, UnitTemperature.celsius, UnitTemperature.kelvin]
-        }
-    }
+    var units: [Dimension] { unitType.units }
     
     var outputValue: Double {
-        let units = units
         guard let inputValue = Double(inputValue),
               inputUnit < units.count,
               outputUnit < units.count else { return 0 }
