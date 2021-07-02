@@ -8,40 +8,71 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var inputLength = ""
+    @State private var inputValue = ""
     @State private var inputUnit = 0
-    @State private var outputUnit = 0
+    @State private var outputUnit = 1
+    @State private var unitType = 0
     
-    var outputLength: Double {
-        guard let inputLength = Double(inputLength) else { return 0 }
-        let inputMeasurement = Measurement(value: inputLength, unit: units[inputUnit])
+    let unitTypes = ["Length", "Volume", "Temp"]
+    let lengthUnits = [UnitLength.meters, UnitLength.kilometers, UnitLength.feet, UnitLength.yards, UnitLength.miles]
+    let volumeUnits = [UnitVolume.milliliters, UnitVolume.liters, UnitVolume.customaryCups, UnitVolume.pints, UnitVolume.gallons]
+    let tempUnits = [UnitTemperature.fahrenheit, UnitTemperature.celsius, UnitTemperature.kelvin]
+    
+    var outputValue: Double {
+        let units = units
+        guard let inputValue = Double(inputValue),
+              inputUnit < units.count,
+              outputUnit < units.count else { return 0 }
+        
+        let inputMeasurement = Measurement(value: inputValue, unit: units[inputUnit])
         
         return inputMeasurement.converted(to: units[outputUnit]).value
     }
     
-    let units = [UnitLength.meters, UnitLength.kilometers, UnitLength.feet, UnitLength.yards, UnitLength.miles]
+    var units: [Dimension] {
+        switch unitType {
+        case 0:
+            return lengthUnits
+        case 1:
+            return volumeUnits
+        case 2:
+            return tempUnits
+        default:
+            return []
+        }
+    }
     
     var body: some View {
-        Form {
-            Section(header: Text("Input")) {
-                TextField("Length", text: $inputLength)
-                Picker("Length unit", selection: $inputUnit) {
-                    ForEach(0..<units.count) {
-                        Text(units[$0].symbol)
+        NavigationView {
+            Form {
+                Picker("Unit", selection: $unitType) {
+                    ForEach(0..<unitTypes.count) {
+                        Text(unitTypes[$0])
                     }
                 }
+                
                 .pickerStyle(SegmentedPickerStyle())
-            }
-            
-            Section(header: Text("Output")) {
-                Text("\(outputLength)")
-                Picker("Length unit", selection: $outputUnit) {
-                    ForEach(0..<units.count) {
-                        Text(units[$0].symbol)
+                Section(header: Text("Input")) {
+                    TextField(unitTypes[unitType], text: $inputValue)
+                    Picker("\(unitTypes[unitType]) selection", selection: $inputUnit) {
+                        ForEach(0..<units.count, id: \.self) {
+                            Text(units[$0].symbol)
+                        }
                     }
+                    .pickerStyle(SegmentedPickerStyle())
                 }
-                .pickerStyle(SegmentedPickerStyle())
+
+                Section(header: Text("Output")) {
+                    Text("\(outputValue)")
+                    Picker("Length unit", selection: $outputUnit) {
+                        ForEach(0..<units.count, id: \.self) {
+                            Text(units[$0].symbol)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
             }
+            .navigationTitle("Unit Conversion")
         }
     }
 }
